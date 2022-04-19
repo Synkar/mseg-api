@@ -366,11 +366,8 @@ def main(args):
     We use the MSeg dataroot explicitly, as specified in mseg/utils/dataset_config.py
     """
     dnames_to_verify = [
-        "ade20k-150",
         "bdd",
-        "coco-panoptic-133",
         "mapillary-public65",
-        "sunrgbd-37"
         # Can't do this for the following two since masks overlap
         # 'cityscapes-19',
         # 'idd-39',

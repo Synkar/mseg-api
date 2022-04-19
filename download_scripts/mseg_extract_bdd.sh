@@ -18,8 +18,10 @@ echo "Extracting BDD100K dataset..."
 # should be about 1.3 GB, includes images and labels
 mkdir -p $BDD_DST_DIR
 cd $BDD_DST_DIR
-unzip bdd100k_seg.zip
-# rm bdd100k_seg.zip
+wget http://dl.yf.io/bdd100k/legacy/bdd100k_seg_2018.zip
+unzip bdd100k_seg_2018.zip
+mv bdd100k_seg_2018 bdd100k_seg
+
 cd ..
 echo "BDD100K dataset extracted."
 

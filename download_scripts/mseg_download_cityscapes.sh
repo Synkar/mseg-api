@@ -13,7 +13,8 @@
 
 # ------------------- Directory Setup ---------------------------
 CITYSCAPES_DST_DIR=$1
-
+CITYSCAPES_USERNAME=$2
+CITYSCAPES_PASSWORD=$3
 echo "Cityscapes will be downloaded to "$CITYSCAPES_DST_DIR
 mkdir -p $CITYSCAPES_DST_DIR
 # ------------------- Downloading -------------------------------

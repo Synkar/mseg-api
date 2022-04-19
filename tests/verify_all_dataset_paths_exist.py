@@ -24,27 +24,6 @@ from mseg.label_preparation.mseg_write_relabeled_segments import (
 
 _ROOT = Path(__file__).resolve().parent.parent
 
-
-def verify_all_dataset_paths_exist():
-    """
-    Loop through all of the datasets and ensure that the absolute paths exist
-    and are valid.
-    """
-    for dname, d_info in infos.items():
-        print(f"Verifying {dname}...")
-
-        if dname in ["ade20k-151-inst"]:
-            # no such explicit list
-            continue
-
-        for split_list in [d_info.trainlist, d_info.vallist]:
-            pairs = generate_all_img_label_pair_fpaths(d_info.dataroot, split_list)
-            for (rgb_fpath, label_fpath) in pairs:
-                assert Path(rgb_fpath).exists()
-                assert Path(label_fpath).exists()
-        print(f"Verified {dname}.")
-
-
 def visual_sanitychecks():
     """
     Save every 1000th image of each dataset, with classnames embedded.
@@ -54,7 +33,7 @@ def visual_sanitychecks():
     for dname, d_info in infos.items():
         print(f"Writing visual sanity checks for {dname}...")
 
-        if dname in ["coco-panoptic-inst-201", "mapillary-public66", "ade20k-151-inst"]:
+        if dname in ["mapillary-public66"]:
             continue  # is in RGB format and not comparable
 
         id_to_classname_map = get_dataloader_id_to_classname_map(dname)
@@ -168,19 +147,6 @@ def verify_targeted_visual_examples():
     scd = SanityCheckDataset(infos[dname].dataroot, dname)
     scd.find_matches(cityscapes_examples)
 
-    dname = "ade20k-150-relabeled"
-    ade20k_examples = [
-        ["zebra", "ADE_train_00016125_113.png", "train", (504, 200)],
-        ["nightstand", "ADE_train_00004036_119.png", "train", (195, 37)],
-        ["wine_glass", "ADE_val_00001949_134.png", "val", (300, 478)],
-        ["bicyclist", "ADE_train_00017384_120.png", "train", (398, 55)],
-        ["bicyclist", "ADE_train_00017404_215.png", "train", (268, 373)],
-        ["counter_other", "ADE_val_00001477_157.png", "val", (160, 234)],
-        ["teddy_bear", "ADE_train_00001951_185.png", "train", (328, 508)],
-    ]
-    scd = SanityCheckDataset(infos[dname].dataroot, dname)
-    scd.find_matches(ade20k_examples)
-
     dname = "bdd-relabeled"
     bdd_examples = [
         ["motorcyclist", "a91b7555-00000590_12.jpg", "val", (470, 888)],
@@ -194,20 +160,6 @@ def verify_targeted_visual_examples():
     ]
     scd = SanityCheckDataset(infos[dname].dataroot, dname)
     scd.find_matches(bdd_examples)
-
-    dname = "coco-panoptic-133-relabeled"
-    cocop_examples = [
-        # title, fname, split
-        # below is `wheelchair`
-        ["slow_wheeled_object", "000000091349_3093585.png", "train", (245, 396)],
-        ["seat", "000000016509_9079654.png", "train", (46, 133)],
-        ["bathroom_counter", "000000376310_2631210.png", "val", (418, 558)],
-        ["bicyclist", "000000067208_4211027.png", "train", (83, 404)],
-        ["motorcyclist", "000000459634_6904408.png", "val", (299, 99)],
-        ["kitchen_island", "000000438774_5403260.png", "val", (199, 341)],
-    ]
-    scd = SanityCheckDataset(infos[dname].dataroot, dname)
-    scd.find_matches(cocop_examples)
 
     dname = "idd-39-relabeled"
     idd_examples = [
@@ -224,19 +176,6 @@ def verify_targeted_visual_examples():
     scd = SanityCheckDataset(infos[dname].dataroot, dname)
     scd.find_matches(idd_examples)
 
-    dname = "sunrgbd-37-relabeled"
-    sunrgbd_examples = [
-        ["swivel_chair", "img-000253_4.jpg", "train", (303, 463)],
-        ["door", "img-004239_4.jpg", "train", (190, 30)],
-        ["desk", "img-004930_11.jpg", "train", (429, 143)],
-        ["bathroom_counter", "img-002347_11.jpg", "train", (254, 34)],
-        ["bathroom_counter", "img-002164_11.jpg", "test", (350, 483)],
-        ["sconce", "img-004159_34.jpg", "train", (204, 284)],
-        ["chandelier", "img-001692_34.jpg", "train", (3, 459)],
-        ["armchair", "img-003192_4.jpg", "test", (300, 467)],
-    ]
-    scd = SanityCheckDataset(infos[dname].dataroot, dname)
-    scd.find_matches(sunrgbd_examples)
 
     dname = "mapillary-public65-relabeled"
     mapillary_examples = [
@@ -257,4 +196,3 @@ def verify_targeted_visual_examples():
 if __name__ == "__main__":
     verify_targeted_visual_examples()
     visual_sanitychecks()
-    verify_all_dataset_paths_exist()
